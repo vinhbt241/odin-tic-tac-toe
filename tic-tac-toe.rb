@@ -7,20 +7,13 @@ class TicTacToe
       display_turn(@player)
       player_choice()
     end
-
+    game_over()
   end
 
   private 
 
   def board_filled?
-    filled = @board.all? { |element| element == "X" || element == "O" } 
-    if filled
-      display_board(@board)
-      puts "Game over!"
-      true
-    else
-      false
-    end
+    @board.all? { |element| element == "X" || element == "O" } 
   end
 
   def victory?
@@ -34,13 +27,7 @@ class TicTacToe
       check_column = true if [@board[i], @board[i + 3], @board[i + 6]] == arr_to_check
     end
     check_cross = true if ([@board[0], @board[4], @board[8]] == arr_to_check) || ([@board[2], @board[4], @board[6]] == arr_to_check)
-    if check_row || check_column || check_cross
-      display_board(@board)
-      puts "#{check_elemnt} won!"
-      true
-    else
-      false
-    end
+    check_row || check_column || check_cross
   end
 
   def display_board(arr)
@@ -59,9 +46,20 @@ class TicTacToe
   def player_choice()
     print "Type in your choice: "
     num = gets.chomp.to_i
+    unless [*1..9].any?(num)
+      puts "Invalid choice"
+      return
+    end
     @board[num - 1] = @player
     @player = (@player == "X") ? "O" : "X"
   end
+
+  def game_over()
+    display_board(@board)
+    puts "#{@player == "X" ? "O" : "X"} WON!" if victory?
+    puts "TIED" if board_filled? && !victory?
+    puts "GAME OVER"
+  end  
 
 end
 
