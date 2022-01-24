@@ -35,7 +35,8 @@ class TicTacToe
     arr.each_with_index do |element, index|
       print " #{element} " if [0, 3, 6].any?(index)
       print "| #{element} |" if [1, 4, 7].any?(index)
-      print " #{element} \n" if [2, 5, 8].any?(index)
+      print " #{element} \n---+---+---\n" if [2, 5].any?(index)
+      print " #{element} \n" if 8 == index
     end
   end
 
